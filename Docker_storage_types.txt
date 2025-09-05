@@ -1,0 +1,53 @@
+STORE FILES IN HOST MACHINE
+
+Prerequisite:
+Create a directory to store data
+
+1. Create an image
+$ docker pull ubuntu
+
+#--- Bind mount ---#
+
+2. Mount a bind type 
+$ docker run -it --name container_name --mount type=bind,source=<PATH_IN_HOST>,target=<PATH_IN_IMAGE> image_name
+ex: docker run -it --name bind_mount_jmsx --mount type=bind,source="C:\Users\James\docker\docker-data",target=/app ubuntu
+
+3. Check type
+$ docker inspect container_id
+
+4. Go to app directory and create a file
+5. Go to local machine directory and verify file is created
+6. Modify file from host machine (Add a new message)
+
+7. Mount other binf type
+$ docker run -it --name container_name -v <PATH_IN_HOST>:<PATH_IN_IMAGE> image_name
+ex: docker run -it --name bind_mount_jmsy -v "C:\Users\James\docker\docker-data":/app ubuntu
+
+8. Check type
+$ docker inspect container_id
+
+9. Go to app directory and modify created file
+
+#--- Volumes ---#
+
+10. Check volume list
+$ docker volume ls
+
+11. Create a valume
+$ docker volume create volume_name
+ex: docker volume Voltron
+    docker volume ls --> confirm volume is created
+
+12. Mount a volume on instance (option 1)
+$ docker run -it --name container_name --mount source=<VOLUME_NAME>,target=<PATH_IN_IMAGE> image_name
+ex: docker run -it --name ubuntux_on_voltron --mount source=Voltron,target=/app ubuntu
+
+13. Go to app directory and create a file
+
+14. Mount a volume on another instance (option 2)
+$ docker run -it --name ubuntuy_on_voltron -v <VOLUME_NAME>:<PATH_IN_IMAGE> image_name
+ex: docker run -it --name ubuntuy_on_voltron -v Voltron:/app ubuntu
+
+15. Go to app directory and modify created file
+
+16. Confirm file modification from previous container
