@@ -1,0 +1,69 @@
+CREATE AN IMAGE
+
+#-- Create an image from a running instance ---#
+
+1.$ docker pull ubuntu
+2.$ docker run -it --name tuxedo ubuntu bash
+
+3.Intall python in the running instance  
+  shell# apt-get update
+  shell# apt install python3
+  shell# python --version
+
+Keep instance running and open another one
+
+4.$ docker ps (I only need the one is running)
+
+Create a new image
+5.$ docker commit container_id/name name_of_new_image:version
+ex: docker commit tuxedo mypython_ubuntu:v1
+
+6.$ docker images
+7.$ docker run -it name_of_new_image:version bash
+ex: 
+  docker run -it mypython_ubuntu:v1 ubuntu
+  docker run -it mypython_ubuntu:v1 python3
+
+-- Push image to docker hub
+$ docker push your_docker_username/my-image:latest
+
+
+#-- Create an image from a docker file ---#
+1. $ docker build -t container_id/name name_of_new_image:version docker_file_location
+ex: docker build -t mypython_ubuntu:v2 C:\Users\James\docker\docker-file
+
+2. $ docker run -it name_of_new_image:version
+CMD python3
+ex:  docker run -it mypython_ubuntu:v2
+
+
+3. $ docker run -it name_of_new_image:version default_command
+ex: docker run -it mypython_ubuntu:v2 bash
+
+-- Update image
+CMD ["python3", "/app/test.py"]
+4. docker build -t mypython_ubuntu:v2 C:\Users\James\docker\docker-file
+$ docker run -it -v C:\Users\James\docker\docker-data-python:/app mypython_ubuntu:v2
+
+# Override default command
+$ docker run -it -v C:\Users\James\docker\docker-data-python:/app mypython_ubuntu:v2 python3 /app/test_x.py
+
+ENTRYPOINT ["python3", "/app/test.py"]
+$ docker run -it -v C:\Users\James\docker\docker-data-python:/app mypython_ubuntu:v2 python3 /app/test_x.py
+$ docker run -it -v C:\Users\James\docker\docker-data-python:/app mypython_ubuntu:v2 bash 
+
+------------------------------------------------------------------------------------------------------------
+
+filename: Dockerfile (Not any extension)
+Content of file:
+FROM ubuntu
+LABEL version='V2' description="Ubuntu image from docker file"
+RUN apt-get update
+# -y to automatically asnwer yes during execution, otherwise the buils is stopped
+RUN apt install -y python3
+RUN apt install -y python3-pip
+CMD python3
+# below conf means $ python3 /app/test.py
+# CMD ["python3", "/app/test.py"]
+#ENTRYPOINT python3
+#ENTRYPOINT ["python3", "/app/test.py"]
