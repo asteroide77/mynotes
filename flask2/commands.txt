@@ -1,0 +1,8 @@
+$ docker build -t myflask:v2 C:\Users\James\docker\flask2
+
+$ docker run --name cont_flask2 -p 5002:5000 -it myflask:v2
+
+# Test from browser
+http://localhost:5002
+
+$ docker run -it myflask:v2 bash
