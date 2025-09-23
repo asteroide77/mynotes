@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flask2
+spec:
+  containers:
+    - name: flask2-container
+      image: flask2:latest
+      imagePullPolicy: Never #evita que haga pull a una imagen desde internet
+      ports:
+        - containerPort: 3000
+
